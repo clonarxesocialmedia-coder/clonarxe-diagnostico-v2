@@ -1,3 +1,15 @@
+// ===============================
+// SUPABASE
+// ===============================
+
+const SUPABASE_URL = "https://givnyehgdltgrhckkwlx.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_vCYbSm3kiJ7j_6f1IstBtw_pAG6mIp-";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 // ============================================================
 // DATOS DEL FORMULARIO
 // ============================================================
@@ -373,8 +385,34 @@ function mostrarCargando() {
 // ============================================================
 // PANTALLA 6 — RESULTADOS
 // ============================================================
+async function guardarDiagnostico(total) {
+
+  try {
+
+const { error } = await supabaseClient
+      .from("Diagnósticos")
+      .insert([{
+    nombre: estado.identificacion.nombre || "",
+    correo: estado.identificacion.correo || "",
+    telefono: estado.identificacion.celular || "",
+    puntaje_total: total,
+    respuestas: estado
+}]);
+
+    if (error) {
+      console.error("Error Supabase:", error);
+    } else {
+      console.log("Diagnóstico guardado.");
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
+
+}
 function mostrarResultados() {
   const total = estado.puntajesBloques.reduce((s,v) => s+(v||0), 0);
+  guardarDiagnostico(total);
   const pct   = (total / MAXIMO_TOTAL) * 100;
 
   document.getElementById('resultado-nombre').textContent = estado.identificacion.nombre;
