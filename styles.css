@@ -341,6 +341,7 @@ body::after {
   transition: all var(--t);
   -webkit-appearance: none;
   height: 50px;
+  
 }
 
 .campo-input:focus {
