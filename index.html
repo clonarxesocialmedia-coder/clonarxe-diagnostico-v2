@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClonarXe — Diagnóstico Empresarial</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/css/intlTelInput.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/js/intlTelInput.min.js"></script>
 </head>
 <body>
 
@@ -18,31 +20,47 @@
   <!-- ══════════════════════════════
        PANTALLA 1 — BIENVENIDA
   ══════════════════════════════ -->
-  <div id="pantalla-bienvenida" class="pantalla activa">
+ <div id="pantalla-bienvenida" class="pantalla activa">
     <div class="welcome-card">
-      <img class="logo-completo" id="logo-bienvenida" src="" alt="ClonarXe" />
-      <div class="welcome-divider"></div>
-      <h2 class="welcome-tagline">Diagnóstico de Autonomía Operacional</h2>
-      <p class="welcome-desc">Evalúa en qué medida tu negocio puede operar sin depender de tu presencia constante. Obtén un informe detallado sobre la madurez operacional de tu empresa.</p>
-      <div class="welcome-stats">
+
+    <img class="logo-completo" id="logo-bienvenida" src="" alt="ClonarXe" />
+
+    <div class="welcome-divider"></div>
+
+    <h2 class="welcome-tagline">
+        Diagnóstico de Autonomía Empresarial
+    </h2>
+
+    <div class="welcome-stats">
+
         <div class="stat-item">
-          <span class="stat-num">8</span>
-          <span class="stat-label">Bloques</span>
+            <span class="stat-num">8</span>
+            <span class="stat-label">Bloques</span>
         </div>
+
         <div class="stat-divider"></div>
+
         <div class="stat-item">
-          <span class="stat-num">48</span>
-          <span class="stat-label">Preguntas</span>
+            <span class="stat-num">240</span>
+            <span class="stat-label">Puntos</span>
         </div>
+
         <div class="stat-divider"></div>
+
         <div class="stat-item">
-          <span class="stat-num">~15</span>
-          <span class="stat-label">Minutos</span>
+            <span class="stat-num">10</span>
+            <span class="stat-label">Minutos</span>
         </div>
-      </div>
-      <button class="btn-cta" id="btn-comenzar">Comenzar diagnóstico</button>
+
     </div>
+
+    <button class="btn-cta" id="btn-comenzar">
+        Comenzar diagnóstico
+    </button>
+
   </div>
+
+</div>
 
   <!-- ══════════════════════════════
        PANTALLA 2 — IDENTIFICACIÓN
@@ -123,29 +141,99 @@
   <!-- ══════════════════════════════
        PANTALLA 4 — ENTRE BLOQUES
   ══════════════════════════════ -->
-  <div id="pantalla-entre-bloques" class="pantalla">
-    <div class="app-card entre-bloques-card">
-      <img class="isotipo-entre" id="isotipo-entre" src="" alt="ClonarXe" />
-      <div class="entre-check">✓</div>
-      <h3 class="entre-titulo" id="entre-titulo"></h3>
-      <div class="entre-puntajes">
-        <div class="entre-score-item">
-          <span class="entre-score-num" id="entre-score-bloque">0</span>
-          <span class="entre-score-den">/30</span>
-          <span class="entre-score-label">Este bloque</span>
-        </div>
-        <div class="entre-score-sep"></div>
-        <div class="entre-score-item">
-          <span class="entre-score-num" id="entre-score-acum">0</span>
-          <span class="entre-score-den">/240</span>
-          <span class="entre-score-label">Acumulado</span>
-        </div>
-      </div>
-      <p class="entre-frase" id="entre-frase"></p>
-      <button class="btn-primary" id="btn-continuar-bloque">Continuar →</button>
-    </div>
-  </div>
+ <div id="pantalla-entre-bloques" class="pantalla">
 
+    <div class="app-card entre-bloques-card">
+
+        <img class="isotipo-entre" id="isotipo-entre" src="" alt="ClonarXe">
+
+        <div class="entre-check">✓</div>
+
+        <h3 class="entre-titulo" id="entre-titulo"></h3>
+
+        <div class="entre-puntajes">
+
+            <div class="entre-score-circle">
+
+                <svg class="progress-ring" width="160" height="160">
+
+                    <circle
+                        class="progress-ring-bg"
+                        cx="80"
+                        cy="80"
+                        r="68">
+                    </circle>
+
+                    <circle
+                        id="ring-bloque"
+                        class="progress-ring-value"
+                        cx="80"
+                        cy="80"
+                        r="68">
+                    </circle>
+
+                </svg>
+
+                <div class="entre-score-center">
+
+                    <div class="entre-score-num" id="entre-score-bloque">0</div>
+
+                    <div class="entre-score-den">/30</div>
+
+                    <div class="entre-score-label">
+                        BLOQUE<br>ACTUAL
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="entre-score-circle">
+
+                <svg class="progress-ring" width="160" height="160">
+
+                    <circle
+                        class="progress-ring-bg"
+                        cx="80"
+                        cy="80"
+                        r="68">
+                    </circle>
+
+                    <circle
+                        id="ring-acum"
+                        class="progress-ring-value"
+                        cx="80"
+                        cy="80"
+                        r="68">
+                    </circle>
+
+                </svg>
+
+                <div class="entre-score-center">
+
+                    <div class="entre-score-num" id="entre-score-acum">0</div>
+
+                    <div class="entre-score-den">/240</div>
+
+                    <div class="entre-score-label">
+                        TOTAL<br>GENERAL
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <p class="entre-frase" id="entre-frase"></p>
+
+        <button class="btn-primary" id="btn-continuar-bloque">
+            Continuar →
+        </button>
+
+    </div>
+
+</div>
   <!-- ══════════════════════════════
        PANTALLA 5 — CARGANDO
   ══════════════════════════════ -->
