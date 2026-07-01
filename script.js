@@ -188,11 +188,21 @@ document.getElementById('btn-comenzar').addEventListener('click', () => show('pa
 // ============================================================
 document.getElementById('btn-volver-bienvenida').addEventListener('click', () => show('pantalla-bienvenida'));
 
+// Selector internacional de teléfono
+const telefonoInput = document.getElementById("campo-celular");
+
+const iti = window.intlTelInput(telefonoInput, {
+    initialCountry: "pa",
+    preferredCountries: ["pa", "co", "mx", "us", "es"],
+    separateDialCode: true,
+    nationalMode: false,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.0/build/js/utils.js"
+});
 document.getElementById('btn-ir-bloques').addEventListener('click', () => {
   if (!validarIdenti()) return;
   estado.identificacion.correo  = document.getElementById('campo-correo').value.trim();
   estado.identificacion.nombre  = document.getElementById('campo-nombre').value.trim();
-  estado.identificacion.celular = document.getElementById('campo-celular').value.trim();
+estado.identificacion.celular = iti.getNumber();
   estado.bloqueIdx = 0;
   estado.preguntaIdx = 0;
   estado.respuestas = {};
@@ -336,23 +346,47 @@ function retrocederPregunta() {
 // ============================================================
 // PANTALLA 4 — ENTRE BLOQUES
 // ============================================================
-function mostrarEntreBloques(ptsBloqueActual) {
-  const bloque = FORM_DATA.bloques[estado.bloqueIdx];
-  const acum   = estado.puntajesBloques.reduce((s,v) => s+(v||0), 0);
-  document.getElementById('entre-titulo').textContent       = bloque.titulo + ' completado';
-  document.getElementById('entre-score-bloque').textContent = ptsBloqueActual;
-  document.getElementById('entre-score-acum').textContent   = acum;
-  document.getElementById('entre-frase').textContent        = bloque.frase;
-  show('pantalla-entre-bloques');
+function mostrarEntreBloques(ptsBloqueActual){
+
+    const bloque = FORM_DATA.bloques[estado.bloqueIdx];
+    const acum = estado.puntajesBloques.reduce((s,v)=>s+(v||0),0);
+
+    document.getElementById("entre-titulo").textContent =
+        bloque.titulo + " completado";
+
+    document.getElementById("entre-score-bloque").textContent =
+        ptsBloqueActual;
+
+    document.getElementById("entre-score-acum").textContent =
+        acum;
+
+    document.getElementById("entre-frase").textContent =
+        bloque.frase;
+
+    show("pantalla-entre-bloques");
+
+    const circ = 2 * Math.PI * 68;
+
+    const ringBloque = document.getElementById("ring-bloque");
+    const ringAcum   = document.getElementById("ring-acum");
+
+    ringBloque.style.strokeDasharray = circ;
+    ringAcum.style.strokeDasharray = circ;
+
+    ringBloque.style.strokeDashoffset = circ;
+    ringAcum.style.strokeDashoffset = circ;
+
+    requestAnimationFrame(()=>{
+
+        ringBloque.style.strokeDashoffset =
+            circ - ((ptsBloqueActual / 30) * circ);
+
+        ringAcum.style.strokeDashoffset =
+            circ - ((acum / 240) * circ);
+
+    });
+
 }
-
-document.getElementById('btn-continuar-bloque').addEventListener('click', () => {
-  estado.bloqueIdx++;
-  estado.preguntaIdx = 0;
-  renderPregunta();
-  show('pantalla-preguntas');
-});
-
 // ============================================================
 // PANTALLA 5 — CARGANDO
 // ============================================================
@@ -598,6 +632,20 @@ document.getElementById('btn-reiniciar').addEventListener('click', () => {
   });
   ['error-correo','error-nombre','error-celular'].forEach(id => document.getElementById(id).textContent = '');
   // Reset progress ring
-  document.getElementById('pr-fill').style.strokeDashoffset = CIRCUNFERENCIA;
+ // document.getElementById('pr-fill').style.strokeDashoffset = CIRCUNFERENCIA;
   show('pantalla-bienvenida');
+});
+// ============================================================
+// CONTINUAR SIGUIENTE BLOQUE
+// ============================================================
+
+document.getElementById("btn-continuar-bloque").addEventListener("click", () => {
+
+    estado.bloqueIdx++;
+    estado.preguntaIdx = 0;
+
+    renderPregunta();
+
+    show("pantalla-preguntas");
+
 });
